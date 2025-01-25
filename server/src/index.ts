@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
+import routes from "./routes";
 
 dotenv.config();
 
@@ -9,12 +11,13 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/test";
 
 app.use(express.json());
+app.use(cors());
+app.use("/api", routes);
 
 const connectDB = async () => {
     try {
         await mongoose.connect(MONGO_URI, {
-            //   useNewUrlParser: true,
-            //   useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 30000
         });
         console.log("Connected to MongoDB");
     } catch (error) {
