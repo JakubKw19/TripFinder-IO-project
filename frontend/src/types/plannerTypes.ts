@@ -17,3 +17,15 @@ export type Hotel = {
     amenities: string[];
     stars: number;
 };
+
+export type UserPlan = {
+    [key: string]: {
+        type: "transport";
+        object: Transport;
+    } | {
+        type: "hotel";
+        checkInDate: string;
+        checkOutDate: string;
+        object: Hotel;
+    } | null;
+}

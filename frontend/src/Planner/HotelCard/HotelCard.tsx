@@ -1,14 +1,18 @@
-import { Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { fetchHotels } from "../../api";
-import { Hotel } from "../../types/plannerTypes";
+import { Hotel, UserPlan } from "../../types/plannerTypes";
 
-export const HotelCard: React.FC<{ hotelName: string, checkInDate: string, checkOutDate: string }> = ({ hotelName, checkInDate, checkOutDate }) => {
+export const HotelCard: React.FC<{
+    objectKey: string,
+    userPlan: UserPlan, setUserPlan: (userPlan: UserPlan) => void, hotelName: string, checkInDate: string, checkOutDate: string
+}> = ({ objectKey, userPlan, setUserPlan, hotelName, checkInDate, checkOutDate }) => {
     const hotelNames = ["Hotel A", "Hotel B", "Hotel C", "Hotel D", "Hotel E"];
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [error, setError] = useState<string>("");
+    const [currentHotel, setCurrentHotel] = useState<string | null>(null);
     // useEffect(() => {
 
     //     }, []);
@@ -37,8 +41,8 @@ export const HotelCard: React.FC<{ hotelName: string, checkInDate: string, check
                 <h2 className="text-xl font-semibold mb-2">Book Your Hotel</h2>
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
                     <FormControl fullWidth>
-                        <InputLabel>Hotel</InputLabel>
-                        <Select value={hotelName}>
+                        <InputLabel id="hotel-label">Hotel</InputLabel>
+                        <Select labelId="hotel-label" label="Hotel" value={hotelName}>
                             {hotelNames.map((hotel, index) => (
                                 <MenuItem key={index} value={hotel}>
                                     {hotel}
@@ -66,11 +70,26 @@ export const HotelCard: React.FC<{ hotelName: string, checkInDate: string, check
 
                     {hotels.length > 0 ? (
                         <ul className="list-disc pl-6">
-                            {hotels.map((hotel) => (
-                                <li key={hotel._id}>
-                                    {hotel.name} in {hotel.city} ({hotel.pricePerNight} USD/night)
-                                </li>
-                            ))}
+                            <FormControl>
+                                <FormLabel id="demo-radio-buttons-group-label">Hotels</FormLabel>
+                                <RadioGroup aria-label="hotels" name="hotels" value={currentHotel} onChange={(e) => {
+                                    setCurrentHotel(e.target.value)
+                                    const selectedHotel = hotels.find(hotel => hotel._id === e.target.value) || null;
+                                    if (selectedHotel) {
+                                        userPlan[objectKey] = {
+                                            type: "hotel",
+                                            checkInDate: checkInDate,
+                                            checkOutDate: checkOutDate,
+                                            object: selectedHotel
+                                        };
+                                    }
+                                    setUserPlan({ ...userPlan });
+                                }}>
+                                    {hotels.map((hotel) => (
+                                        <FormControlLabel value={hotel._id} control={<Radio />} label={`${hotel.name} in ${hotel.city} (${hotel.pricePerNight} USD/night)`} />
+                                    ))}
+                                </RadioGroup>
+                            </FormControl>
                         </ul>
                     ) : (
                         <Button className="w-full bg-green-500 text-white hover:bg-green-600" onClick={() => searchHotels()}>
