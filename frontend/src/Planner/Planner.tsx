@@ -8,10 +8,11 @@ import { HotelCard } from "./HotelCard/HotelCard";
 
 export const Planner: React.FC = () => {
     const [currentValue, setCurrentValue] = React.useState<string>("flight");
-    const plan: { [key: string]: { type: string; destination?: string; date?: string; hotel?: string; checkIn?: string; checkOut?: string } } = {
+    const plan: { [key: string]: { type: string; from?: string; destination?: string; date?: string; hotel?: string; checkIn?: string; checkOut?: string } } = {
         1: {
             "type": "flight",
-            "destination": "New York",
+            "from": "Warsaw",
+            "destination": "Paris",
             "date": "2022-12-01"
         },
         2: {
@@ -26,7 +27,7 @@ export const Planner: React.FC = () => {
             "date": "2022-12-05"
         },
     }
-    const [yourPlan, setYourPlan] = React.useState<{ [key: string]: { type: string; destination?: string; date?: string; hotel?: string; checkIn?: string; checkOut?: string } }>(plan);
+    const [yourPlan, setYourPlan] = React.useState<{ [key: string]: { type: string; from?: string; destination?: string; date?: string; hotel?: string; checkIn?: string; checkOut?: string } }>(plan);
     const onAddToPlan = () => {
         if (currentValue === "flight") {
             yourPlan[Object.keys(yourPlan).length + 1] = { type: currentValue, destination: "", date: "" };
@@ -53,7 +54,7 @@ export const Planner: React.FC = () => {
                                 <Card key={index}>
                                     <CardContent>
                                         {plan.type === "flight" ? (
-                                            <FlightCard currentDestination={plan.destination || ""} date={plan.date || ""} />
+                                            <FlightCard from={plan.from || ""} currentDestination={plan.destination || ""} date={plan.date || ""} />
                                         ) : (
                                             <HotelCard hotelName={plan.hotel || ""} checkInDate={plan.checkIn || ""} checkOutDate={plan.checkOut || ""} />
                                         )}
