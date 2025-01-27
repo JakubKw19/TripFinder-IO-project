@@ -20,7 +20,7 @@ export const Planner: React.FC = () => {
         },
         2: {
             "type": "hotel",
-            "hotel": "Hotel A",
+            "hotel": "Hilton",
             "checkIn": "2025-01-25",
             "checkOut": "2025-01-30"
         },
