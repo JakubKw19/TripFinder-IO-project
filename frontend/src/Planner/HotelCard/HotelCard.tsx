@@ -1,20 +1,21 @@
 import { Button, Card, CardContent, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, Radio, RadioGroup, Select } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { fetchHotels } from "../../api";
 import { Hotel, UserPlan } from "../../types/plannerTypes";
 
 export const HotelCard: React.FC<{
     objectKey: string,
-    userPlan: UserPlan, setUserPlan: (userPlan: UserPlan) => void, hotelName: string, checkInDate: string, checkOutDate: string
-}> = ({ objectKey, userPlan, setUserPlan, hotelName, checkInDate, checkOutDate }) => {
+    userPlan: UserPlan, setUserPlan: (userPlan: UserPlan) => void, hotelName: string
+}> = ({ objectKey, userPlan, setUserPlan, hotelName }) => {
     // const hotelNames = ["Hotel A", "Hotel B", "Hotel C", "Hotel D", "Hotel E"];
     const [hotelNames, setHotelNames] = useState<string[]>([]);
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [error, setError] = useState<string>("");
     const [currentHotel, setCurrentHotel] = useState<string | null>(null);
     const [hotelCity, setHotelCity] = useState<string>(hotelName);
+    const [checkInDate, setCheckInDate] = useState<string>("");
+    const [checkOutDate, setCheckOutDate] = useState<string>("");
     const [isOpened, setIsOpened] = useState<boolean>(false);
     // useEffect(() => {
 
@@ -57,20 +58,8 @@ export const HotelCard: React.FC<{
                             ))}
                         </Select>
                     </FormControl>
-                    {
-                        checkInDate !== "" ? (
-                            <DatePicker label="Check-in-Date" defaultValue={dayjs(checkInDate)} />
-                        ) : (
-                            <DatePicker label="Check-in-Date" />
-                        )
-                    }
-                    {
-                        checkOutDate !== "" ? (
-                            <DatePicker label="Check-out-Date" defaultValue={dayjs(checkOutDate)} />
-                        ) : (
-                            <DatePicker label="Check-out-Date" />
-                        )
-                    }
+                    <DatePicker onChange={(date) => setCheckInDate(date?.format("YYYY-MM-DD") || "")} label="Check-in-Date" />
+                    <DatePicker onChange={(date) => setCheckOutDate(date?.format("YYYY-MM-DD") || "")} label="Check-out-Date" />
                 </div>
 
                 <div className="mt-4">

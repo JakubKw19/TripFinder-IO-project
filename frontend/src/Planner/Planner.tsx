@@ -10,26 +10,27 @@ import dayjs from "dayjs";
 
 export const Planner: React.FC = () => {
     const [currentValue, setCurrentValue] = React.useState<string>("flight");
-    const [userPlan, setUserPlan] = React.useState<UserPlan>({ 1: null, 2: null, 3: null });
+    // const [userPlan, setUserPlan] = React.useState<UserPlan>({ 1: null, 2: null, 3: null });
+    const [userPlan, setUserPlan] = React.useState<UserPlan>({});
     const plan: { [key: string]: { type: string; departure?: string; destination?: string; date?: string; hotel?: string; checkIn?: string; checkOut?: string } } = {
-        1: {
-            "type": "flight",
-            "departure": "Warsaw",
-            "destination": "Paris",
-            "date": "2025-01-25",
-        },
-        2: {
-            "type": "hotel",
-            "hotel": "Hilton",
-            "checkIn": "2025-01-25",
-            "checkOut": "2025-01-30"
-        },
-        3: {
-            "type": "flight",
-            "departure": "Paris",
-            "destination": "Warsaw",
-            "date": "2025-01-30"
-        },
+        // 1: {
+        //     "type": "flight",
+        //     "departure": "Warsaw",
+        //     "destination": "Paris",
+        //     "date": "2025-01-25",
+        // },
+        // 2: {
+        //     "type": "hotel",
+        //     "hotel": "Hilton",
+        //     "checkIn": "2025-01-25",
+        //     "checkOut": "2025-01-30"
+        // },
+        // 3: {
+        //     "type": "flight",
+        //     "departure": "Paris",
+        //     "destination": "Warsaw",
+        //     "date": "2025-01-30"
+        // },
     }
     const [yourPlan, setYourPlan] = React.useState<{ [key: string]: { type: string; departure?: string; destination?: string; date?: string; hotel?: string; checkIn?: string; checkOut?: string } }>(plan);
     const onAddToPlan = () => {
@@ -69,7 +70,7 @@ export const Planner: React.FC = () => {
                                                     </div>
                                                 ) : (
                                                     <div className="m-2 mb-5">
-                                                        <span className="font-light">{dayjs(userPlan[key]?.checkInDate).format('YYYY-MM-DD')} - {dayjs(userPlan[key]?.checkOutDate).format('YYYY-MM-DD')}</span>
+                                                        <span className="font-light">{userPlan[key]?.checkInDate} - {userPlan[key]?.checkOutDate}</span>
                                                         <p>{userPlan[key]?.object.name} in {userPlan[key]?.object.city} ({userPlan[key]?.object.pricePerNight} USD/night)</p>
                                                     </div>
 
@@ -103,7 +104,7 @@ export const Planner: React.FC = () => {
                                         {plan.type === "flight" ? (
                                             <FlightCard objectKey={key} userPlan={userPlan} setUserPlan={setUserPlan} departure={plan.departure || ""} currentDestination={plan.destination || ""} date={plan.date || ""} />
                                         ) : (
-                                            <HotelCard objectKey={key} userPlan={userPlan} setUserPlan={setUserPlan} hotelName={plan.hotel || ""} checkInDate={plan.checkIn || ""} checkOutDate={plan.checkOut || ""} />
+                                            <HotelCard objectKey={key} userPlan={userPlan} setUserPlan={setUserPlan} hotelName={plan.hotel || ""} />
                                         )}
                                     </CardContent>
                                 </Card>
