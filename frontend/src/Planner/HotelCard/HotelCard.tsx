@@ -86,7 +86,11 @@ export const HotelCard: React.FC<{
                                     setUserPlan({ ...userPlan });
                                 }}>
                                     {hotels.map((hotel) => (
-                                        <FormControlLabel value={hotel._id} control={<Radio />} label={`${hotel.name} in ${hotel.city} (${hotel.pricePerNight} USD/night)`} />
+                                        <FormControlLabel
+                                            key={hotel._id}
+                                            value={hotel._id} 
+                                            control={<Radio />} 
+                                            label={`${hotel.name} in ${hotel.city} (${hotel.pricePerNight} USD/night)`} />
                                     ))}
                                 </RadioGroup>
                             </FormControl>

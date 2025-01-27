@@ -57,9 +57,9 @@ export const Planner: React.FC = () => {
                     <CardContent>
                         <h2 className="text-xl font-semibold mb-2">Your Plan</h2>
                         {
-                            Object.keys(userPlan).map((key, index) => {
+                            Object.keys(userPlan).map((key) => {
                                 return (
-                                    <div key={index} className="mb-2">
+                                    <div key={`userPlan-${key}`} className="mb-2">
                                         {
                                             userPlan[key] ? (
                                                 userPlan[key]?.type === "transport" ? (
@@ -95,10 +95,10 @@ export const Planner: React.FC = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <h1 className="text-3xl font-bold mb-4">Dynamic Trip Planner</h1>
                     {
-                        Object.keys(yourPlan).map((key, index) => {
+                        Object.keys(yourPlan).map((key) => {
                             const plan = yourPlan[key];
                             return (
-                                <Card key={index}>
+                                <Card key={`yourPlan-${key}`}>
                                     <CardContent>
                                         {plan.type === "flight" ? (
                                             <FlightCard objectKey={key} userPlan={userPlan} setUserPlan={setUserPlan} departure={plan.departure || ""} currentDestination={plan.destination || ""} date={plan.date || ""} />

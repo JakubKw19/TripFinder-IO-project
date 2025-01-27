@@ -85,7 +85,12 @@ export const FlightCard: React.FC<{
                                     setUserPlan({ ...userPlan });
                                 }}>
                                     {transport.map((item) => (
-                                        <FormControlLabel value={item._id} control={<Radio />} label={`${item.departureCity} → ${item.destinationCity} (${item.price} USD)`} />
+                                    <FormControlLabel
+                                        key={item._id}
+                                        value={item._id}
+                                        control={<Radio />}
+                                        label={`${item.departureCity} → ${item.destinationCity} (${item.price} USD)`}
+                                    />
                                     ))}
                                 </RadioGroup>
                             </FormControl>
